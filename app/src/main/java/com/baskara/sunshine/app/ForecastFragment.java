@@ -40,9 +40,10 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         List<String> weekForecast = new ArrayList<>(Arrays.asList(fakeData));
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
         ForecastAdapter forecastAdapter = new ForecastAdapter(getActivity(), R.layout.list_item_forecast , weekForecast);
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(forecastAdapter);
 
