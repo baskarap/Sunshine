@@ -8,6 +8,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ForecastFragment extends Fragment {
 
@@ -34,6 +39,13 @@ public class ForecastFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        List<String> weekForecast = new ArrayList<>(Arrays.asList(fakeData));
+        ForecastAdapter forecastAdapter = new ForecastAdapter(getActivity(), R.layout.list_item_forecast , weekForecast);
+
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        listView.setAdapter(forecastAdapter);
+
+        return rootView;
     }
 }
