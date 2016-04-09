@@ -41,6 +41,7 @@ public class ForecastFragment extends Fragment {
             "Saturday",
             "Sunday",
     };
+    private ForecastAdapter forecastAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class ForecastFragment extends Fragment {
         List<String> weekForecast = new ArrayList<>(Arrays.asList(fakeData));
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        ForecastAdapter forecastAdapter = new ForecastAdapter(getActivity(), R.layout.list_item_forecast, weekForecast);
+        forecastAdapter = new ForecastAdapter(getActivity(), R.layout.list_item_forecast, weekForecast);
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(forecastAdapter);
@@ -270,6 +271,16 @@ public class ForecastFragment extends Fragment {
                 }
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] strings) {
+            if (strings != null) {
+                forecastAdapter.clear();
+                for (String weather : strings) {
+                    forecastAdapter.add(weather);
+                }
+            }
         }
     }
 }
