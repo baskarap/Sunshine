@@ -36,6 +36,8 @@ import java.util.List;
 
 public class ForecastFragment extends Fragment {
 
+    private final String TAG = ForecastFragment.class.getSimpleName();
+
     private String[] fakeData = {
             "Monday",
             "Tuesday",
@@ -70,18 +72,44 @@ public class ForecastFragment extends Fragment {
         if (itemId == R.id.action_refresh) {
             updateWeather();
             return true;
-        } else if (itemId == R.id.action_settings) {
+        }
+        if (itemId == R.id.action_map) {
+            openPreferredLocationInMap();
+            return true;
+        }
+        if (itemId == R.id.action_settings) {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private String getStringLocation() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        return preferences.getString(getString(R.string.pref_key_location),
+                getString(R.string.pref_defvalue_location));
+    }
+
+    private void openPreferredLocationInMap() {
+        String location = getStringLocation();
+
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q", location)
+                .build();
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Log.e(TAG, "Could not find location");
+        }
+    }
+
     private void updateWeather() {
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String location = preferences.getString(getString(R.string.pref_key_location),
-                getString(R.string.pref_defvalue_location));
+        String location = getStringLocation();
         fetchWeatherTask.execute(location);
     }
 
