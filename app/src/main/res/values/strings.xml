@@ -4,6 +4,7 @@
     <string name="title_activity_detail">Detail</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="action_share">Share</string>
     <string name="pref_label_location">Location</string>
     <string name="pref_key_location">location</string>
     <string name="pref_defvalue_location">Surabaya</string>
