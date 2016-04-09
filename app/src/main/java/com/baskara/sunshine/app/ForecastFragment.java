@@ -130,6 +130,8 @@ public class ForecastFragment extends Fragment {
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
 
+            //TODO count the correct temperature according to user's Preference
+
             String highLowStr = roundedHigh + "/" + roundedLow;
             return highLowStr;
         }
