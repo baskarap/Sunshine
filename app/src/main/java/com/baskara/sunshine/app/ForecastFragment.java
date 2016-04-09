@@ -59,20 +59,30 @@ public class ForecastFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.action_refresh) {
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String location = preferences.getString(getString(R.string.pref_key_location),
-                    getString(R.string.pref_defvalue_location));
-            fetchWeatherTask.execute(location);
+            updateWeather();
             return true;
         } else if (itemId == R.id.action_settings) {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather() {
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = preferences.getString(getString(R.string.pref_key_location),
+                getString(R.string.pref_defvalue_location));
+        fetchWeatherTask.execute(location);
     }
 
     @Nullable
