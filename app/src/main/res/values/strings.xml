@@ -7,4 +7,11 @@
     <string name="pref_label_location">Location</string>
     <string name="pref_key_location">location</string>
     <string name="pref_defvalue_location">Surabaya</string>
+
+    <string name="pref_units_label_metric">Metric</string>
+    <string name="pref_units_label_imperial">Imperial</string>
+    <string name="pref_units_metric">metric</string>
+    <string name="pref_units_imperial">imperial</string>
+    <string name="pref_units_key">unit</string>
+    <string name="pref_units_label">Unit</string>
 </resources>
