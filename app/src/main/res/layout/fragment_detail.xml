@@ -8,5 +8,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.baskara.sunshine.app.DetailActivityFragment">
 
+    <TextView
+        android:id="@+id/text_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

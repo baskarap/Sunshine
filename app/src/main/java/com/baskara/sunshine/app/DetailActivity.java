@@ -9,6 +9,11 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-    }
+        DetailActivityFragment detailFragment = new DetailActivityFragment();
 
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.detail_container, detailFragment)
+                .commit();
+    }
 }
