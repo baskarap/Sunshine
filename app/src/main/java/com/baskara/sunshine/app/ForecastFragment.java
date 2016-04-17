@@ -34,7 +34,7 @@ import java.util.List;
 
 public class ForecastFragment extends Fragment {
 
-    public static interface IntentKey {
+    public interface IntentKey {
         String INTENT_KEY_FORECAST = "forecast";
     }
 
