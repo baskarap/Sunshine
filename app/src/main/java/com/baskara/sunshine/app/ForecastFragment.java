@@ -1,5 +1,6 @@
 package com.baskara.sunshine.app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -31,6 +33,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ForecastFragment extends Fragment {
+
+    public static interface IntentKey {
+        String INTENT_KEY_FORECAST = "forecast";
+    }
 
     private String[] fakeData = {
             "Monday",
@@ -76,6 +82,15 @@ public class ForecastFragment extends Fragment {
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(forecastAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String forecast = forecastAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(IntentKey.INTENT_KEY_FORECAST, forecast);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
@@ -274,10 +289,10 @@ public class ForecastFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
-            if (strings != null) {
+        protected void onPostExecute(String[] weatherText) {
+            if (weatherText != null) {
                 forecastAdapter.clear();
-                for (String weather : strings) {
+                for (String weather : weatherText) {
                     forecastAdapter.add(weather);
                 }
             }
