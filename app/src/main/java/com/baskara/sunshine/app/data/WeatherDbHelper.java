@@ -9,7 +9,7 @@ import com.baskara.sunshine.app.data.WeatherContract.LocationEntry;
 
 public class WeatherDbHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "sunshine.db";
+    public static final String DATABASE_NAME = "sunshine.db";
     private static final int DATABASE_VERSION = 1;
 
 
@@ -55,6 +55,6 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + LocationEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + WeatherEntry.TABLE_NAME);
-        onCreate(db); 
+        onCreate(db);
     }
 }
