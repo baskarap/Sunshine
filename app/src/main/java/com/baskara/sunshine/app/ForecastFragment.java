@@ -18,6 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.baskara.sunshine.app.network.GetWeatherVolleyRequest;
+import com.baskara.sunshine.app.network.VolleyListener;
+import com.baskara.sunshine.app.network.VolleyManager;
+import com.baskara.sunshine.app.network.VolleyRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +42,7 @@ import java.util.List;
 
 public class ForecastFragment extends Fragment {
 
-    private final String TAG = ForecastFragment.class.getSimpleName();
+    private final String TAG = getClass().getCanonicalName();
 
     private String[] fakeData = {
             "Monday",
@@ -108,9 +114,26 @@ public class ForecastFragment extends Fragment {
     }
 
     private void updateWeather() {
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
         String location = getStringLocation();
-        fetchWeatherTask.execute(location);
+        VolleyManager volleyManager = VolleyManager.getInstance(getActivity());
+        GetWeatherVolleyRequest request = new GetWeatherVolleyRequest();
+        request.putParams(NetworkParam.QUERY_PARAM, location);
+        request.putParams(NetworkParam.FORMAT_PARAM, "json");
+        request.putParams(NetworkParam.UNITS_PARAM, "metric");
+        request.putParams(NetworkParam.DAYS_PARAM, 7);
+        request.putParams(NetworkParam.APPID_PARAM, "fd46595ae6d61340ff374a8c836cb256");
+        request.setListener(new VolleyListener() {
+            @Override
+            public void onSuccess(VolleyRequest request, JSONObject result) {
+                Log.e(TAG, result.toString());
+            }
+
+            @Override
+            public void onError(VolleyRequest request, String errorMessage) {
+                Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+        volleyManager.createRequest(request);
     }
 
     @Nullable
