@@ -3,12 +3,10 @@ package com.baskara.sunshine.app;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,25 +19,19 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.baskara.sunshine.app.data.RealmManager;
+import com.baskara.sunshine.app.model.Weather;
 import com.baskara.sunshine.app.network.GetWeatherVolleyRequest;
 import com.baskara.sunshine.app.network.VolleyListener;
 import com.baskara.sunshine.app.network.VolleyManager;
 import com.baskara.sunshine.app.network.VolleyRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import io.realm.RealmResults;
 
 public class ForecastFragment extends Fragment {
 
@@ -134,6 +126,7 @@ public class ForecastFragment extends Fragment {
                 RealmManager realmManager = new RealmManager(getActivity());
                 realmManager.clearLocationAndWeather();
                 realmManager.insertLocationAndWeather(response);
+                refreshAdapters(realmManager.getWeathers());
             }
 
             @Override
@@ -142,6 +135,16 @@ public class ForecastFragment extends Fragment {
             }
         });
         volleyManager.createRequest(request, TAG);
+    }
+
+    private void refreshAdapters(RealmResults<Weather> weathers) {
+        if (weathers != null) {
+            forecastAdapter.clear();
+            int size = weathers.size();
+            for (int i = 0; i < size; i++) {
+                forecastAdapter.add(weathers.get(i).getDay());
+            }
+        }
     }
 
     @Nullable
